@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Crypto Sports
+{% endblock %}
+
+{% block mainContent %}
+
+<div class="products">
+
+  {% for listing in listings %}
+
+  <div class="section_container">
+    <div class="container">
+      <h1 style="margin-bottom: 3%;">{{ listing.category.name }}</h1>
+      <div class="row">
+        <div class="col">
+          <div class="products_container grid">
+
+            {% for item in listing.items %}
+
+            <!-- Product -->
+            <div class="product grid-item hot">
+              <div class="product_inner">
+                <div class="product_image">
+                  <img src="{{ item.picture.url }}" alt="">
+                </div>
+                <div class="product_content text-center">
+                  <div class="product_title"><a href="product.html">{{ item.name }}</a></div>
+                  <div class="product_price">ARDOR {{ item.price }}</div>
+
+                  {% if user.is_authenticated %}
+                    {% if item.id in cart_items %}
+                    <div class="product_button ml-auto mr-auto trans_200"><a href="">In Cart</a></div>
+                    {% else %}
+                    <div class="product_button ml-auto mr-auto trans_200"><a href="{% url 'additem' item_id=item.id %}">add to cart</a></div>
+                    {% endif %}
+                  {% else %}
+                    <div class="product_button ml-auto mr-auto trans_200"><a href="{% url 'login'%}">add to cart</a></div>
+                  {% endif %}
+
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+
+</div>
+
+{% endblock %}
